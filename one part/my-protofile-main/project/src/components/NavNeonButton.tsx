@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 type Variant = 'green' | 'pink' | 'blue';
@@ -12,6 +12,10 @@ interface NavNeonButtonProps {
 }
 
 const NavNeonButton: React.FC<NavNeonButtonProps> = ({ to, children, variant = 'green', className = '', onClick }) => {
+  const [forceBlue, setForceBlue] = useState(false);
+
+  const effective: Variant = forceBlue ? 'blue' : variant;
+
   const baseClasses = "group relative px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 transform hover:scale-105 active:scale-95 flex items-center gap-2";
   const variantClasses: Record<Variant, string> = {
     green: "bg-gradient-to-r from-green-400/20 to-green-500/20 border-2 border-green-400/50 text-green-400",
@@ -19,10 +23,10 @@ const NavNeonButton: React.FC<NavNeonButtonProps> = ({ to, children, variant = '
     blue: "bg-gradient-to-r from-blue-400/20 to-blue-500/20 border-2 border-blue-400/50 text-blue-400",
   } as const;
 
-  const baseGleamClass = variant === 'green' ? 'btn-gleam-green' : variant === 'pink' ? 'btn-gleam-pink' : 'btn-gleam-blue';
-  const baseGlowClass = variant === 'green'
+  const baseGleamClass = effective === 'green' ? 'btn-gleam-green' : effective === 'pink' ? 'btn-gleam-pink' : 'btn-gleam-blue';
+  const baseGlowClass = effective === 'green'
     ? 'bg-gradient-to-r from-green-400/50 to-green-500/50'
-    : variant === 'pink'
+    : effective === 'pink'
     ? 'bg-gradient-to-r from-pink-400/50 to-pink-500/50'
     : 'bg-gradient-to-r from-blue-400/50 to-blue-500/50';
 
@@ -30,27 +34,25 @@ const NavNeonButton: React.FC<NavNeonButtonProps> = ({ to, children, variant = '
     <NavLink
       to={to}
       onClick={onClick}
-      className={`${baseClasses} ${variantClasses[variant]} ${className}`}
+      onMouseEnter={() => setForceBlue(true)}
+      onMouseLeave={() => setForceBlue(false)}
+      onFocus={() => setForceBlue(true)}
+      onBlur={() => setForceBlue(false)}
+      className={`${baseClasses} ${variantClasses[effective]} ${className}`}
     >
-      {/* base gleam + beam */}
-      <span className={`btn-gleam ${baseGleamClass} group-hover:opacity-0 group-active:opacity-0 transition-opacity duration-150`} aria-hidden="true" />
-      <span className="btn-gleam btn-gleam-blue opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-150" aria-hidden="true" />
-      <span className="btn-beam opacity-0 group-hover:opacity-60 group-active:opacity-70 transition-opacity duration-150" aria-hidden="true" />
+      {/* base gleam + beam (blue when forced) */}
+      <span className={`btn-gleam ${baseGleamClass}`} aria-hidden="true" />
+      <span className="btn-beam" aria-hidden="true" />
 
       {/* blue moving sweep only on hover/active */}
       <span className="absolute inset-0 rounded-full overflow-hidden pointer-events-none" aria-hidden="true">
-        <span className="h-full w-1/3 translate-x-[-150%] animate-sweep opacity-0 group-hover:opacity-70 group-active:opacity-80 bg-gradient-to-r from-blue-400/50 via-blue-300/40 to-transparent transition-opacity duration-150" />
+        <span className={`h-full w-1/3 translate-x-[-150%] animate-sweep ${forceBlue ? 'opacity-70' : 'opacity-0'} bg-gradient-to-r from-blue-400/50 via-blue-300/40 to-transparent transition-opacity duration-150`} />
       </span>
 
-      <span className="relative z-10 group-hover:text-blue-400 group-active:text-blue-400">{children}</span>
+      <span className={`relative z-10 ${forceBlue ? 'text-blue-400' : ''}`}>{children}</span>
 
-      {/* outer glow: base to blue on hover/active */}
-      <span className={`absolute -inset-1 rounded-full blur-2xl pointer-events-none opacity-60 animate-breathe ${baseGlowClass} group-hover:opacity-0 group-active:opacity-0 transition-opacity duration-150`} aria-hidden="true" />
-      <span className="absolute -inset-1 rounded-full blur-2xl pointer-events-none opacity-0 group-hover:opacity-60 group-active:opacity-70 bg-gradient-to-r from-blue-400/50 to-blue-500/50 animate-breathe transition-opacity duration-150" aria-hidden="true" />
-
-      {/* full blue hover/active overlay for bg/border */}
-      <span className="absolute inset-0 rounded-full ring-2 ring-transparent group-hover:ring-blue-400 group-active:ring-blue-400 transition duration-150" aria-hidden="true" />
-      <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 group-active:opacity-100 transition duration-150 bg-gradient-to-r from-blue-400/20 to-blue-500/20" aria-hidden="true" />
+      {/* outer glow: effective color */}
+      <span className={`absolute -inset-1 rounded-full blur-2xl pointer-events-none opacity-60 animate-breathe ${baseGlowClass}`} aria-hidden="true" />
     </NavLink>
   );
 };
