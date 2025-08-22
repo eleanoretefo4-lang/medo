@@ -60,7 +60,7 @@ const AdminPasswordModal: React.FC<AdminPasswordModalProps> = ({ isOpen, onClose
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="#CROCTEFO#"
+                placeholder="Enter the password"
                 className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-white placeholder-white/30 outline-none focus:ring-2 focus:ring-blue-500/70 focus:border-blue-400"
               />
               {/* Inner glow */}
