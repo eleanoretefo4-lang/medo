@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     const id = setInterval(() => {
       setMode((m) => (m === 'green' ? 'pink' : 'green'));
-    }, 12000); // auto-switch every 12s
+    }, 5000); // auto-switch faster every 5s
     return () => clearInterval(id);
   }, []);
 
