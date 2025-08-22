@@ -18,10 +18,11 @@ const NavNeonButton: React.FC<NavNeonButtonProps> = ({ to, children, variant = '
 
   return (
     <NavLink to={to} onClick={onClick} className={`${baseClasses} ${variantClasses[variant]} ${className}`}>
-      {/* Inner animated flow layer (color-matched) */}
-      <span className={`btn-inner-flow ${variant === 'green' ? 'btn-inner-green' : 'btn-inner-pink'}`} aria-hidden="true" />
+      {/* Inner animated flow layer (color-matched), switches to blue on hover */}
+      <span className={`btn-inner-flow ${variant === 'green' ? 'btn-inner-green' : 'btn-inner-pink'} group-hover:opacity-0 transition-opacity duration-200`} aria-hidden="true" />
+      <span className="btn-inner-flow btn-inner-blue opacity-0 group-hover:opacity-100 transition-opacity duration-200" aria-hidden="true" />
 
-      {/* Inner moving sweep highlight: green/pink base and blue on hover */}
+      {/* Inner moving sweep highlight: base, plus blue on hover */}
       <span className="absolute inset-0 rounded-full overflow-hidden" aria-hidden="true">
         <span className={`h-full w-1/3 translate-x-[-150%] animate-sweep opacity-60 ${variant === 'green' ? 'bg-gradient-to-r from-green-400/40 via-green-300/30 to-transparent' : 'bg-gradient-to-r from-pink-400/40 via-pink-300/30 to-transparent'}`} />
         <span className="h-full w-1/3 translate-x-[-150%] animate-sweep opacity-0 group-hover:opacity-60 bg-gradient-to-r from-blue-400/40 via-blue-300/30 to-transparent transition-opacity duration-300" />
