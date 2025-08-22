@@ -12,9 +12,12 @@ interface NavNeonButtonProps {
 }
 
 const NavNeonButton: React.FC<NavNeonButtonProps> = ({ to, children, variant = 'green', className = '', onClick }) => {
-  const [forceBlue, setForceBlue] = useState(false);
+  const [isHover, setIsHover] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
 
-  const effective: Variant = forceBlue ? 'blue' : variant;
+  const shouldBlue = isHover || isActive || isFocus;
+  const effective: Variant = shouldBlue ? 'blue' : variant;
 
   const baseClasses = "group relative px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 transform hover:scale-105 active:scale-95 flex items-center gap-2";
   const variantClasses: Record<Variant, string> = {
@@ -34,22 +37,24 @@ const NavNeonButton: React.FC<NavNeonButtonProps> = ({ to, children, variant = '
     <NavLink
       to={to}
       onClick={onClick}
-      onMouseEnter={() => setForceBlue(true)}
-      onMouseLeave={() => setForceBlue(false)}
-      onFocus={() => setForceBlue(true)}
-      onBlur={() => setForceBlue(false)}
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => { setIsHover(false); setIsActive(false); }}
+      onMouseDown={() => setIsActive(true)}
+      onMouseUp={() => setIsActive(false)}
+      onFocus={() => setIsFocus(true)}
+      onBlur={() => setIsFocus(false)}
       className={`${baseClasses} ${variantClasses[effective]} ${className}`}
     >
-      {/* base gleam + beam (blue when forced) */}
+      {/* base gleam + beam (blue when shouldBlue) */}
       <span className={`btn-gleam ${baseGleamClass}`} aria-hidden="true" />
       <span className="btn-beam" aria-hidden="true" />
 
-      {/* blue moving sweep only on hover/active */}
+      {/* blue moving sweep only when blue state */}
       <span className="absolute inset-0 rounded-full overflow-hidden pointer-events-none" aria-hidden="true">
-        <span className={`h-full w-1/3 translate-x-[-150%] animate-sweep ${forceBlue ? 'opacity-70' : 'opacity-0'} bg-gradient-to-r from-blue-400/50 via-blue-300/40 to-transparent transition-opacity duration-150`} />
+        <span className={`h-full w-1/3 translate-x-[-150%] animate-sweep ${shouldBlue ? 'opacity-70' : 'opacity-0'} bg-gradient-to-r from-blue-400/50 via-blue-300/40 to-transparent transition-opacity duration-150`} />
       </span>
 
-      <span className={`relative z-10 ${forceBlue ? 'text-blue-400' : ''}`}>{children}</span>
+      <span className={`relative z-10 ${shouldBlue ? 'text-blue-400' : ''}`}>{children}</span>
 
       {/* outer glow: effective color */}
       <span className={`absolute -inset-1 rounded-full blur-2xl pointer-events-none opacity-60 animate-breathe ${baseGlowClass}`} aria-hidden="true" />
