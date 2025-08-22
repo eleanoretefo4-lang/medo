@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import NavNeonButton from './NavNeonButton';
 
+type Variant = 'green' | 'pink' | 'blue';
+
 interface NavItem {
   label: string;
   to: string;
@@ -15,16 +17,20 @@ const baseItems: NavItem[] = [
   { label: 'LOGIN', to: '/login' },
 ];
 
+const variants: Variant[] = ['green', 'pink', 'blue'];
+
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState<'green' | 'pink'>('green');
+  const [modeIdx, setModeIdx] = useState(0);
 
   useEffect(() => {
     const id = setInterval(() => {
-      setMode((m) => (m === 'green' ? 'pink' : 'green'));
-    }, 1000); // auto-switch every 1s
+      setModeIdx((i) => (i + 1) % variants.length);
+    }, 1500); // rotate between green, pink, blue every 1.5s
     return () => clearInterval(id);
   }, []);
+
+  const mode = variants[modeIdx];
 
   return (
     <nav className="fixed top-0 inset-x-0 z-30">
@@ -48,7 +54,7 @@ const Navbar: React.FC = () => {
             <ul className="hidden md:flex items-center gap-3 text-sm font-semibold">
               {baseItems.map((item) => (
                 <li key={item.to}>
-                  <NavNeonButton to={item.to} variant={mode}>{item.label}</NavNeonButton>
+                  <NavNeonButton to={item.to} variant={mode as Variant}>{item.label}</NavNeonButton>
                 </li>
               ))}
             </ul>
@@ -59,7 +65,7 @@ const Navbar: React.FC = () => {
               <ul className="grid gap-2">
                 {baseItems.map((item) => (
                   <li key={item.to}>
-                    <NavNeonButton to={item.to} variant={mode} className="w-full justify-center" onClick={() => setOpen(false)}>
+                    <NavNeonButton to={item.to} variant={mode as Variant} className="w-full justify-center" onClick={() => setOpen(false)}>
                       {item.label}
                     </NavNeonButton>
                   </li>
