@@ -23,22 +23,19 @@ const NeonButton: React.FC<NeonButtonProps> = ({
     secondary: "bg-gradient-to-r from-pink-400/20 to-purple-500/20 border-2 border-pink-400/50 text-pink-400 hover:border-pink-400 hover:shadow-lg hover:shadow-pink-400/25"
   };
 
+  const strobeClass = variant === 'primary' ? 'btn-strobe-green' : 'btn-strobe-pink';
+  const gleamClass = variant === 'primary' ? 'btn-gleam-green' : 'btn-gleam-pink';
+
   return (
     <button
       onClick={onClick}
-      className={`${baseClasses} ${variantClasses[variant]} ${className}`}
+      className={`${baseClasses} ${variantClasses[variant]} btn-strobe-container ${strobeClass} ${className}`}
     >
-      {/* Inner animated flow layer (color-matched) */}
-      <span className={`btn-inner-flow ${variant === 'primary' ? 'btn-inner-green' : 'btn-inner-pink'}`} aria-hidden="true" />
-
-      {/* Inner moving sweep highlight */}
-      <div className="absolute inset-0 rounded-full overflow-hidden">
-        <div className={`h-full w-1/3 translate-x-[-150%] animate-sweep opacity-70 ${variant === 'primary' ? 'bg-gradient-to-r from-green-400/50 via-green-300/40 to-transparent' : 'bg-gradient-to-r from-pink-400/50 via-pink-300/40 to-transparent'}`} />
-      </div>
+      <div className={`btn-gleam ${gleamClass}`} aria-hidden="true" />
+      <div className="btn-beam" aria-hidden="true" />
       <Icon className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
       <span className="relative z-10">{children}</span>
-      {/* Outer breathing glow matching variant with subtle flicker */}
-      <div className={`absolute -inset-1 rounded-full blur-2xl pointer-events-none opacity-70 animate-breathe ${variant === 'primary' ? 'bg-gradient-to-r from-green-400/50 to-blue-500/50' : 'bg-gradient-to-r from-pink-400/50 to-purple-500/50'} animate-[neon-flicker_1.6s_ease-in-out_infinite]`} />
+      <div className={`absolute -inset-1 rounded-full blur-2xl pointer-events-none opacity-70 ${variant === 'primary' ? 'bg-gradient-to-r from-green-400/50 to-blue-500/50' : 'bg-gradient-to-r from-pink-400/50 to-purple-500/50'} animate-[neon-flicker_1s_ease-in-out_infinite]`} />
     </button>
   );
 };
