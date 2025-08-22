@@ -37,26 +37,26 @@ const Navbar: React.FC = () => {
               <span className="block w-5 h-0.5 bg-current mt-1.5" />
             </button>
 
-            <ul className="hidden md:flex items-center gap-2 text-sm font-semibold">
+            <ul className="hidden md:flex items-center gap-3 text-sm font-semibold">
               {navItems.map((item) => (
                 <li key={item.to} className="relative">
                   <NavLink
                     to={item.to}
                     className={({ isActive }) =>
-                      `group relative block px-4 py-2 rounded-xl transition backdrop-blur-sm
+                      `group relative isolate overflow-hidden rounded-full px-5 py-2 transition-all duration-300
                       ${isActive ? 'text-white' : 'text-white/85 hover:text-white'}`
                     }
                   >
-                    {/* Active gradient pill */}
-                    <span
-                      className={({ isActive }: { isActive?: boolean }) =>
-                        `pointer-events-none absolute inset-0 rounded-xl -z-10 transition-opacity duration-300
-                        ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'}` as unknown as string
-                      }
-                    />
+                    {/* gleam/beam layers */}
+                    <span className="btn-gleam btn-gleam-green group-hover:opacity-0" aria-hidden="true" />
+                    <span className="btn-gleam btn-gleam-pink group-hover:opacity-0" aria-hidden="true" />
+                    <span className="btn-gleam btn-gleam-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
+                    <span className="btn-beam opacity-0 group-hover:opacity-60 transition-opacity duration-300" aria-hidden="true" />
+
                     <span className="relative z-10">{item.label}</span>
-                    {/* Underline gradient */}
-                    <span className="pointer-events-none absolute -bottom-1 left-3 right-3 h-0.5 bg-gradient-to-r from-green-400 to-pink-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+
+                    {/* outline ring */}
+                    <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-white/10" aria-hidden="true" />
                   </NavLink>
                 </li>
               ))}
@@ -71,12 +71,16 @@ const Navbar: React.FC = () => {
                     <NavLink
                       to={item.to}
                       className={({ isActive }) =>
-                        `block w-full rounded-xl px-4 py-3 text-sm font-semibold transition
+                        `group relative isolate overflow-hidden rounded-xl px-4 py-3 text-sm font-semibold transition
                         ${isActive ? 'text-white bg-white/10 border border-white/15' : 'text-white/90 bg-white/5 border border-white/10 hover:bg-white/10 hover:text-white'}`
                       }
                       onClick={() => setOpen(false)}
                     >
-                      {item.label}
+                      <span className="btn-gleam btn-gleam-green group-hover:opacity-0" aria-hidden="true" />
+                      <span className="btn-gleam btn-gleam-pink group-hover:opacity-0" aria-hidden="true" />
+                      <span className="btn-gleam btn-gleam-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
+                      <span className="btn-beam opacity-0 group-hover:opacity-60 transition-opacity duration-300" aria-hidden="true" />
+                      <span className="relative z-10">{item.label}</span>
                     </NavLink>
                   </li>
                 ))}
