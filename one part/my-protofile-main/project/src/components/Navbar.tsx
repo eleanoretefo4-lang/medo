@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavNeonButton from './NavNeonButton';
+import LogoMark from './LogoMark';
 
 type Variant = 'green' | 'pink' | 'blue';
 
@@ -37,9 +38,7 @@ const Navbar: React.FC = () => {
       <div className="mx-auto max-w-6xl px-4">
         <div className="mt-4 rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md shadow-lg shadow-black/20">
           <div className="flex items-center justify-between px-4 py-3 md:px-6">
-            <a href="/" className="relative font-extrabold tracking-tight select-none">
-              <span className="text-2xl bg-gradient-to-r from-green-400 to-pink-500 bg-clip-text text-transparent">MA</span>
-            </a>
+            <LogoMark />
 
             <button
               className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/10 text-white/80 hover:text-white hover:border-white/20 transition"
