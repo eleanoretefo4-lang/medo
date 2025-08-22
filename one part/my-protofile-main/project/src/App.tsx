@@ -7,6 +7,7 @@ import NeonButton from './components/NeonButton';
 import ProfileImage from './components/ProfileImage';
 import TypingText from './components/TypingText';
 import LoadingScreen from './components/LoadingScreen';
+import Navbar from './components/Navbar';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,11 +28,12 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-900 relative overflow-hidden">
+      <Navbar />
       {/* Animated Background */}
       <AnimatedBackground />
       
       {/* Main Content: two-column responsive layout */}
-      <div className="relative z-10 min-h-screen px-6 py-12 pt-28 md:pt-32">
+      <div id="home" className="relative z-10 min-h-screen px-6 py-12 pt-28 md:pt-32">
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left: Text and CTAs */}
           <div className="order-2 lg:order-1 text-left space-y-8">
@@ -68,12 +70,44 @@ function App() {
 
         {/* Decorative floating elements */}
         <div className="absolute top-20 left-10 w-6 h-6 bg-green-400 rounded-full animate-bounce opacity-80 shadow-lg shadow-green-400/50 blur-sm" />
-        <div className="absolute top-40 right-20 w-5 h-5 bg-blue-400 rounded-full animate-bounce opacity-80 shadow-lg shadow-blue-400/50 blur-sm" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-40 right-20 w-5 h-5 bg-pink-400 rounded-full animate-bounce opacity-80 shadow-lg shadow-pink-400/50 blur-sm" style={{ animationDelay: '1s' }} />
         <div className="absolute bottom-32 left-20 w-7 h-7 bg-pink-400 rounded-full animate-bounce opacity-80 shadow-lg shadow-pink-400/50 blur-sm" style={{ animationDelay: '2s' }} />
-        <div className="absolute bottom-20 right-10 w-4 h-4 bg-purple-400 rounded-full animate-bounce opacity-80 shadow-lg shadow-purple-400/50 blur-sm" style={{ animationDelay: '0.5s' }} />
-        <div className="absolute top-1/3 left-1/4 w-3 h-3 bg-cyan-400 rounded-full animate-ping opacity-60" />
-        <div className="absolute top-2/3 right-1/3 w-4 h-4 bg-yellow-400 rounded-full animate-ping opacity-60" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute bottom-20 right-10 w-4 h-4 bg-green-400 rounded-full animate-bounce opacity-80 shadow-lg shadow-green-400/50 blur-sm" style={{ animationDelay: '0.5s' }} />
+        <div className="absolute top-1/3 left-1/4 w-3 h-3 bg-pink-400 rounded-full animate-ping opacity-60" />
+        <div className="absolute top-2/3 right-1/3 w-4 h-4 bg-green-400 rounded-full animate-ping opacity-60" style={{ animationDelay: '1.5s' }} />
       </div>
+
+      {/* Placeholder sections for navigation anchors */}
+      <section id="works" className="relative z-10 py-24 px-6">
+        <div className="mx-auto max-w-6xl">
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Our Works</h3>
+          <p className="text-white/70">Showcase coming soon.</p>
+        </div>
+      </section>
+      <section id="skills" className="relative z-10 py-24 px-6">
+        <div className="mx-auto max-w-6xl">
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Skills</h3>
+          <p className="text-white/70">Skills content coming soon.</p>
+        </div>
+      </section>
+      <section id="about" className="relative z-10 py-24 px-6">
+        <div className="mx-auto max-w-6xl">
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">About</h3>
+          <p className="text-white/70">About section coming soon.</p>
+        </div>
+      </section>
+      <section id="contact" className="relative z-10 py-24 px-6">
+        <div className="mx-auto max-w-6xl">
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Contact</h3>
+          <p className="text-white/70">Contact details coming soon.</p>
+        </div>
+      </section>
+      <section id="login" className="relative z-10 py-24 px-6">
+        <div className="mx-auto max-w-6xl">
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Login</h3>
+          <p className="text-white/70">Authentication coming soon.</p>
+        </div>
+      </section>
     </div>
   );
 }
