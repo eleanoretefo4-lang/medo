@@ -33,12 +33,12 @@ const NeonButton: React.FC<NeonButtonProps> = ({
 
       {/* Inner moving sweep highlight */}
       <div className="absolute inset-0 rounded-full overflow-hidden">
-        <div className={`h-full w-1/3 translate-x-[-150%] animate-sweep opacity-60 ${variant === 'primary' ? 'bg-gradient-to-r from-green-400/40 via-green-300/30 to-transparent' : 'bg-gradient-to-r from-pink-400/40 via-pink-300/30 to-transparent'}`} />
+        <div className={`h-full w-1/3 translate-x-[-150%] animate-sweep opacity-70 ${variant === 'primary' ? 'bg-gradient-to-r from-green-400/50 via-green-300/40 to-transparent' : 'bg-gradient-to-r from-pink-400/50 via-pink-300/40 to-transparent'}`} />
       </div>
       <Icon className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
       <span className="relative z-10">{children}</span>
-      {/* Outer breathing glow matching variant */}
-      <div className={`absolute -inset-1 rounded-full blur-2xl pointer-events-none opacity-70 animate-breathe ${variant === 'primary' ? 'bg-gradient-to-r from-green-400/50 to-blue-500/50' : 'bg-gradient-to-r from-pink-400/50 to-purple-500/50'}`} />
+      {/* Outer breathing glow matching variant with subtle flicker */}
+      <div className={`absolute -inset-1 rounded-full blur-2xl pointer-events-none opacity-70 animate-breathe ${variant === 'primary' ? 'bg-gradient-to-r from-green-400/50 to-blue-500/50' : 'bg-gradient-to-r from-pink-400/50 to-purple-500/50'} animate-[neon-flicker_1.6s_ease-in-out_infinite]`} />
     </button>
   );
 };
