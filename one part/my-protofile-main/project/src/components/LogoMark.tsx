@@ -1,8 +1,64 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 const LogoMark: React.FC = () => {
+  const timerRef = useRef<number | null>(null);
+  const triggeredRef = useRef(false);
+  const LONG_PRESS_MS = 900;
+  const ADMIN_PASSWORD = '#CROCTEFO#';
+
+  const clearTimer = () => {
+    if (timerRef.current) {
+      window.clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  const activateAdmin = () => {
+    const input = window.prompt('Enter admin password');
+    if (input === ADMIN_PASSWORD) {
+      localStorage.setItem('isAdmin', '1');
+      window.dispatchEvent(new CustomEvent('admin:changed', { detail: { isAdmin: true } }));
+      triggeredRef.current = true;
+    } else if (input != null) {
+      // Wrong password: ensure admin off
+      localStorage.removeItem('isAdmin');
+      window.dispatchEvent(new CustomEvent('admin:changed', { detail: { isAdmin: false } }));
+      triggeredRef.current = true;
+    }
+  };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    // Ignore non-primary buttons
+    if (e.button && e.button !== 0) return;
+    clearTimer();
+    timerRef.current = window.setTimeout(() => {
+      activateAdmin();
+    }, LONG_PRESS_MS);
+  };
+
+  const handlePointerUpCancel = () => {
+    clearTimer();
+  };
+
+  const handleClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+    if (triggeredRef.current) {
+      e.preventDefault();
+      e.stopPropagation();
+      triggeredRef.current = false;
+    }
+  };
+
   return (
-    <a href="/" className="group relative inline-block select-none">
+    <a
+      href="/"
+      aria-label="MA Logo"
+      className="group relative inline-block select-none"
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUpCancel}
+      onPointerCancel={handlePointerUpCancel}
+      onPointerLeave={handlePointerUpCancel}
+      onClick={handleClick}
+    >
       {/* Outer soft glow */}
       <span className="absolute -inset-3 rounded-2xl blur-2xl opacity-70 pointer-events-none bg-gradient-to-tr from-green-400/30 via-pink-400/25 to-green-400/30 group-hover:opacity-90 transition" aria-hidden="true" />
 
